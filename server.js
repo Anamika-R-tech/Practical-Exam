@@ -3,7 +3,7 @@ const session = require("express-session");
 
 const app = express();
 
-
+// Middleware to read JSON data
 app.use(express.json());
 
 // Session Middleware
@@ -14,12 +14,17 @@ app.use(
     saveUninitialized: false,
     cookie: {
       secure: false,
-      maxAge: 1000 * 60 * 60
+      maxAge: 1000 * 60 * 60 // 1 hour
     }
   })
 );
 
+// Home Route
+app.get("/", (req, res) => {
+  res.send("Home Page");
+});
 
+// Dummy User
 const USER = {
   username: "admin",
   password: "1234"
@@ -46,6 +51,7 @@ app.post("/login", (req, res) => {
     password === USER.password
   ) {
 
+    // Create Session
     req.session.user = username;
 
     res.send("Login Successful");
